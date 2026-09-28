@@ -1,0 +1,270 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Булочка — дневник беременности</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 15% 10%,#ffd7e5 0,#f2d9ff 28%,#d8e9ff 62%,#e8eef8 100%);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;color:#30283a}
+.phone{width:390px;max-width:95vw;height:820px;margin:24px auto;background:linear-gradient(180deg,#fffaff 0,#f7f5ff 100%);border:8px solid #17151d;border-radius:40px;overflow:hidden;position:relative;box-shadow:0 28px 80px #5d437044,0 8px 25px #0002}
+.status{height:30px;padding:7px 18px;font-size:12px;font-weight:700;display:flex;justify-content:space-between;color:#40364a}
+.head{padding:14px 22px 8px}.small{color:#897b91;font-size:13px}.title{font-size:28px;font-weight:900;letter-spacing:-.7px;margin-top:3px}
+.content{height:665px;overflow:auto;padding:8px 18px 100px}
+.card,.mini{background:rgba(255,255,255,.84);backdrop-filter:blur(16px);border:1px solid #fff;border-radius:24px;padding:17px;margin:10px 0;box-shadow:0 10px 28px #7b5b9820, inset 0 1px 0 #fff}
+.week{background:linear-gradient(135deg,#ff8fb8,#b88cff 58%,#77c8ff);color:#fff;border:0;box-shadow:0 16px 34px #b266bc40}.week .small{color:#fff9}.week b{font-size:34px;letter-spacing:-1px}
+.progress{height:9px;background:#ffffff55;border-radius:9px;margin-top:13px;overflow:hidden}.progress i{display:block;width:35%;height:100%;background:#fff;border-radius:9px;box-shadow:0 2px 7px #fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini{margin:0;cursor:pointer;transition:.15s}.mini:active{transform:scale(.97)}.emoji{font-size:31px;filter:drop-shadow(0 4px 4px #0002)}.value{font-size:19px;font-weight:800;margin-top:4px}
+.baby-card{background:linear-gradient(135deg,#fff1b8,#ffd3e3 45%,#c9c3ff);border:0;border-radius:25px;padding:18px;margin:12px 0;box-shadow:0 15px 32px #a56aa52e}
+.baby-top{display:flex;justify-content:space-between;align-items:center}.baby-title{font-size:20px;font-weight:900}.baby-fruit{font-size:60px;line-height:1;filter:drop-shadow(0 7px 5px #8d5a5a33)}.baby-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.baby-stat{background:#ffffff99;border:1px solid #fff9;border-radius:17px;padding:12px}.baby-stat b{font-size:18px;display:block}
+.photo{height:120px;border-radius:20px;background:linear-gradient(135deg,#ffd5e5,#d8c8ff,#bceaff);display:flex;align-items:center;justify-content:center;font-size:48px;margin-top:10px;box-shadow:inset 0 2px 8px #fff,0 8px 18px #80609020}
+button.action,.take-btn{border:0;background:linear-gradient(135deg,#ff5f9d,#9c65ff);color:#fff;padding:11px 16px;border-radius:15px;font-weight:800;cursor:pointer;box-shadow:0 7px 16px #9c65ff35}.take-btn.done{background:linear-gradient(135deg,#49c887,#38a98d)}
+textarea,input{width:100%;padding:12px;border:1px solid #e8dff0;border-radius:14px;font:inherit;margin-top:6px;background:#fff}
+.nav{position:absolute;bottom:0;left:0;right:0;min-height:82px;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-top:1px solid #fff;display:flex;justify-content:space-around;padding:9px 4px 7px;overflow-x:auto}.nav button{border:0;background:none;color:#9a8da4;font-size:10px;min-width:55px;font-weight:650}.nav button.active{color:#914dff;font-weight:900}.nav span{display:block;font-size:25px;margin-bottom:3px;filter:drop-shadow(0 4px 3px #0002)}
+.screen{display:none}.screen.active{display:block}
+.symptoms{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.symptom{background:rgba(255,255,255,.9);border:1px solid #eee2f4;border-radius:18px;padding:12px;cursor:pointer}.symptom.selected{border-color:#a35dff;background:#f9f0ff}.symptom .sicon{font-size:28px;filter:drop-shadow(0 4px 4px #0002)}.symptom .sname{font-weight:800;font-size:13px;margin-top:4px}.levels{display:flex;gap:4px;margin-top:7px}.levels button{border:1px solid #eadede;background:#faf7ff;border-radius:8px;padding:4px 8px;font-size:11px;cursor:pointer}.levels button.on{background:linear-gradient(135deg,#ff609f,#9664ff);color:white;border-color:transparent}.symptom-note{font-size:10px;color:#958686;margin-top:5px}
+.achievement{padding:15px;border-radius:19px;background:linear-gradient(135deg,#fff8f0,#f5efff);margin:10px 0;border:1px solid #fff;box-shadow:0 7px 18px #80609018}.achievement.locked{opacity:.55}.achievement .wk{font-size:20px;font-weight:900;color:#8d52a8}.achievement .badge{font-size:31px;float:right;filter:drop-shadow(0 4px 3px #0002)}.achievement p{font-size:13px;line-height:1.45;color:#665b6b}
+.meds-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}.med-card{background:rgba(255,255,255,.9);border:1px solid #fff;border-radius:22px;padding:14px;box-shadow:0 9px 22px #80609018}.med-row{display:flex;gap:12px;align-items:center}.med-photo{width:68px;height:68px;border-radius:18px;background:linear-gradient(135deg,#ffe0ed,#d8c8ff);display:flex;align-items:center;justify-content:center;font-size:32px;overflow:hidden;box-shadow:0 7px 13px #80609020}.med-photo img{width:100%;height:100%;object-fit:cover}.med-name{font-size:17px;font-weight:900}.med-meta{font-size:12px;color:#8f808f;margin-top:3px}.med-time{display:inline-block;background:linear-gradient(135deg,#fff0f5,#eee6ff);color:#8951a5;padding:5px 9px;border-radius:10px;font-weight:800;font-size:12px;margin-top:8px}.med-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:12px}.stock{font-size:13px}.stock.low{color:#b14e55;font-weight:900}.add-med{background:linear-gradient(135deg,#fff,#f4edff);border:2px dashed #c9b4dc;border-radius:20px;padding:17px;text-align:center;cursor:pointer}.med-form{display:none}.med-form.open{display:block}.med-form label{display:block;font-size:13px;font-weight:700;margin:10px 0}
+
+.profile-wrap{text-align:center;padding:5px 0 13px}
+.profile-photo{width:104px;height:104px;border-radius:50%;margin:0 auto 9px;background:linear-gradient(135deg,#ff83b6,#9a73ff,#63cfff);display:flex;align-items:center;justify-content:center;font-size:48px;overflow:hidden;border:4px solid #fff;box-shadow:0 10px 25px #8055a844;cursor:pointer}
+.profile-photo img{width:100%;height:100%;object-fit:cover}
+.profile-name{font-size:20px;font-weight:900}
+.profile-edit{font-size:11px;color:#987b9e;margin-top:3px}
+.doctor-box{background:linear-gradient(135deg,#f9efff,#e8f4ff);border-radius:20px;padding:15px;margin:10px 0;border:1px solid #fff}
+.doctor-title{font-size:16px;font-weight:900;margin-bottom:8px}
+.doctor-row{display:flex;gap:10px;align-items:center;margin:8px 0}
+.doctor-icon{font-size:25px}
+.edit-btn{border:0;background:#fff;color:#8b57aa;border-radius:11px;padding:8px 12px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px #80609016}
+.profile-form{display:none;margin-top:10px}.profile-form.open{display:block}
+</style>>
+<div class="phone"><div class="status"><span>9:41</span><span>● ● ▰</span></div><div class="head"><div class="small">Дневник Булочки ❤️</div><div class="title">Моя беременность</div></div><div class="content">
+<section id="home" class="screen active">
+<div class="profile-wrap">
+  <div class="profile-photo" id="profilePhoto" onclick="document.getElementById('profileFile').click()">👩🏻‍🍼</div>
+  <input id="profileFile" type="file" accept="image/*" style="display:none" onchange="setProfilePhoto(this)">
+  <div class="profile-name" id="profileName">Булочка</div>
+  <div class="profile-edit" onclick="editProfile()">Нажми, чтобы изменить имя и фото</div>
+</div>
+<div class="card week"><div class="small">Сейчас</div><b>14 недель</b><div>2-й триместр</div><div class="progress"><i></i></div></div>
+<div class="baby-card">
+  <div class="baby-top">
+    <div>
+      <div class="baby-title">👶 Малыш сейчас</div>
+      <div class="small">14-я неделя беременности</div>
+    </div>
+    <div class="baby-fruit">🍋</div>
+  </div>
+  <div class="baby-stats">
+    <div class="baby-stat"><span class="small">Примерный размер</span><b>≈ 8–9 см</b></div>
+    <div class="baby-stat"><span class="small">Примерный вес</span><b>≈ 40–50 г</b></div>
+  </div>
+  <p class="small" style="margin-bottom:0">Сейчас малыш примерно размером с лимон 🍋. Показатели ориентировочные и могут немного отличаться у каждой беременности.</p>
+</div>
+
+<div class="grid"><div class="mini"><div class="emoji">⚖️</div><div class="small">Вес сегодня</div><div class="value">— кг</div></div><div class="mini"><div class="emoji">😊</div><div class="small">Самочувствие</div><div class="value">Хорошо</div></div><div class="mini"><div class="emoji">🥗</div><div class="small">Питание</div><div class="value">Добавить</div></div><div class="mini"><div class="emoji">🩺</div><div class="small">Ближайший врач</div><div class="value">Добавить</div></div></div>
+<div class="card"><b>Фото животика</b><div class="photo">🤰</div><p class="small">Фото каждый месяц — чтобы видеть изменения.</p><button class="action" onclick="go('belly')">Добавить фото</button></div></section>
+<section id="health" class="screen">
+<div class="card"><h2>❤️ День</h2>
+<p class="small">Отметь, как Булочка чувствует себя сегодня.</p>
+
+<div class="symptoms" id="symptoms">
+<div class="symptom" data-name="Тошнота"><div class="sicon">🤢</div><div class="sname">Тошнота</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div><div class="symptom-note">0 — нет · 3 — сильно</div></div>
+<div class="symptom" data-name="Изжога"><div class="sicon">🔥</div><div class="sname">Изжога</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Головокружение"><div class="sicon">😵‍💫</div><div class="sname">Головокружение</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Головная боль"><div class="sicon">🤕</div><div class="sname">Головная боль</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Боль в спине"><div class="sicon">🩻</div><div class="sname">Боль в спине</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Боль в ногах"><div class="sicon">🦵</div><div class="sname">Боль в ногах</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Отеки"><div class="sicon">🦶</div><div class="sname">Отеки</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Усталость"><div class="sicon">😴</div><div class="sname">Усталость</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Сонливость"><div class="sicon">💤</div><div class="sname">Сонливость</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Тянущие ощущения"><div class="sicon">〰️</div><div class="sname">Тянущие ощущения</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Вздутие"><div class="sicon">🫧</div><div class="sname">Вздутие</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Запор"><div class="sicon">🚽</div><div class="sname">Запор</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Частое мочеиспускание"><div class="sicon">💧</div><div class="sname">Частое мочеиспускание</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Перепады настроения"><div class="sicon">🎭</div><div class="sname">Перепады настроения</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Болезненность груди"><div class="sicon">💗</div><div class="sname">Грудь чувствительная</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+<div class="symptom" data-name="Судороги"><div class="sicon">🦶</div><div class="sname">Судороги</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div></div>
+</div>
+
+<p style="margin-top:16px"><b>Самочувствие в целом</b></p>
+<div class="grid">
+<button class="mini" onclick="overall(this)">😄<br><b>Отлично</b></button>
+<button class="mini" onclick="overall(this)">🙂<br><b>Хорошо</b></button>
+<button class="mini" onclick="overall(this)">😐<br><b>Нормально</b></button>
+<button class="mini" onclick="overall(this)">😔<br><b>Плохо</b></button>
+</div>
+<p>Заметка</p><textarea placeholder="Что чувствуешь сегодня? Вопросы врачу?"></textarea><br><br>
+<button class="action" onclick="alert('День сохранён ❤️')">Сохранить день</button>
+</div>
+
+<div class="card"><b>⚠️ Важно</b><p class="small">Приложение помогает вести дневник и не заменяет медицинскую консультацию. При сильных, необычных или быстро усиливающихся симптомах стоит обратиться к врачу.</p></div>
+</section>
+<section id="food" class="screen"><div class="card"><h2>🥗 Питание</h2><p class="small">Фотографируй еду каждый день.</p><div class="photo">📷</div><br><button class="action" onclick="alert('Здесь будет выбор фото')">Добавить фото</button><p>Что было?</p><input placeholder="Например: завтрак"><p>Заметка</p><textarea placeholder="Как себя чувствовала после еды?"></textarea></div></section>
+
+<section id="doctor" class="screen">
+<div class="card">
+<h2>🩺 Врач</h2>
+<p class="small">Контакты врача, который ведёт беременность.</p>
+
+<div class="doctor-box">
+<div class="doctor-title">👩‍⚕️ Ведущий врач</div>
+<div class="doctor-row"><div class="doctor-icon">👤</div><div><div class="small">Ф.И.О.</div><b id="doctorName">Не указано</b></div></div>
+<div class="doctor-row"><div class="doctor-icon">📞</div><div><div class="small">Телефон</div><b id="doctorPhone">Не указан</b></div></div>
+</div>
+
+<div class="doctor-box">
+<div class="doctor-title">🏥 Женская консультация</div>
+<div class="doctor-row"><div class="doctor-icon">🏥</div><div><div class="small">Название</div><b id="clinicName">Не указано</b></div></div>
+<div class="doctor-row"><div class="doctor-icon">📞</div><div><div class="small">Телефон</div><b id="clinicPhone">Не указан</b></div></div>
+</div>
+
+<button class="edit-btn" onclick="document.getElementById('doctorForm').classList.toggle('open')">✏️ Изменить данные</button>
+
+<div class="profile-form" id="doctorForm">
+<label>Ф.И.О. врача<input id="doctorNameInput" placeholder="Например: Иванова Анна Сергеевна"></label>
+<label>Телефон врача<input id="doctorPhoneInput" type="tel" placeholder="+7 ..."></label>
+<label>Женская консультация<input id="clinicNameInput" placeholder="Название консультации"></label>
+<label>Телефон консультации<input id="clinicPhoneInput" type="tel" placeholder="+7 ..."></label>
+<br><button class="action" onclick="saveDoctor()">Сохранить контакты</button>
+</div>
+</div>
+
+<div class="card">
+<b>📅 Ближайший приём</b>
+<p class="small">Дата пока не добавлена</p>
+<button class="action" onclick="alert('Здесь будет календарь приёмов')">+ Добавить приём</button>
+</div>
+
+<div class="card">
+<b>📋 Анализы и УЗИ</b>
+<p class="small">Храни результаты обследований в одном месте.</p>
+<button class="action" onclick="alert('Здесь будет загрузка файла')">Добавить результат</button>
+</div>
+</section>
+<section id="belly" class="screen"><div class="card"><h2>🤰 Животик</h2><p class="small">Фото по месяцам</p><div class="photo">📸</div><br><button class="action" onclick="alert('Здесь будет загрузка фото')">Добавить фото</button><div class="mini" style="margin-top:12px"><b>4-й месяц</b><p class="small">Фото ещё не добавлено</p></div></div></section>
+
+<section id="achievements" class="screen">
+<div class="card"><h2>🏆 Достижения</h2>
+<p class="small">Каждая новая неделя — ещё одна маленькая победа на пути к встрече с малышом ❤️</p>
+<div id="achievementList"></div>
+</div>
+</section>
+
+<section id="meds" class="screen">
+<div class="card">
+<h2>💊 Лекарства</h2>
+<p class="small">Напоминания о приёме и контроль запасов.</p>
+
+<div class="meds-list" id="medsList">
+<div class="med-card" data-stock="20" data-taken="false">
+<div class="med-row">
+<div class="med-photo">💊</div>
+<div><div class="med-name">Препарат</div><div class="med-meta">Дозировка: не указана</div><div class="med-time">⏰ 09:00</div></div>
+</div>
+<div class="med-bottom"><span class="stock">Осталось: <b class="stock-num">20</b> шт.</span><button class="take-btn" onclick="takeMed(this)">Отметить приём</button></div>
+</div>
+</div>
+
+<div class="add-med" onclick="document.getElementById('medForm').classList.toggle('open')">
+➕ <b>Добавить лекарство</b><br><span class="small">Фото • название • дозировка • время • запас</span>
+</div>
+
+<div class="med-form" id="medForm">
+<label>Название препарата<input id="medName" placeholder="Например, препарат"></label>
+<label>Дозировка<input id="medDose" placeholder="Например, 1 таблетка"></label>
+<label>Время приёма<input id="medTime" type="time" value="09:00"></label>
+<label>Количество в запасе<input id="medStock" type="number" min="0" value="30"></label>
+<label>Фото таблеток<input id="medPhoto" type="file" accept="image/*"></label>
+<button class="action" onclick="addMed()">Сохранить лекарство</button>
+</div>
+</div>
+
+<div class="card">
+<b>🔔 Напоминания</b>
+<p class="small">Для настоящих уведомлений и звука на iPhone приложение должно получить разрешение на уведомления. В этом прототипе время сохраняется как настройка.</p>
+<button class="action" onclick="requestNotifications()">Включить уведомления</button>
+</div>
+
+<div class="card">
+<b>📦 Запасы</b>
+<p class="small">Когда останется мало таблеток, приложение покажет предупреждение «Пора пополнить запас».</p>
+</div>
+</section>
+<section id="notes" class="screen"><div class="card"><h2>📝 Заметки</h2><textarea style="height:180px" placeholder="Мысли, вопросы врачу, важные события..."></textarea><br><br><button class="action" onclick="alert('Заметка сохранена!')">Сохранить</button></div><div class="card"><b>🖼️ Галерея УЗИ</b><p class="small">Все снимки беременности в одном месте.</p><button class="action" onclick="alert('Здесь будет галерея УЗИ')">Добавить УЗИ</button></div></section>
+</div><div class="nav"><button class="active" onclick="go('home',this)"><span>🏠</span>Главная</button><button onclick="go('health',this)"><span>❤️</span>День</button><button onclick="go('food',this)"><span>🥗</span>Еда</button><button onclick="go('doctor',this)"><span>🩺</span>Врач</button><button onclick="go('achievements',this)"><span>🏆</span>Достижения</button><button onclick="go('meds',this)"><span>💊</span>Лекарства</button><button onclick="go('notes',this)"><span>📝</span>Ещё</button></div></div>
+<script>function go(id,b){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active')}
+const weeks={1:["Начало пути","Беременность обычно отсчитывают от первого дня последней менструации. Оплодотворение ещё может не произойти."],2:["Старт","В организме происходят изменения, связанные с овуляцией и возможным оплодотворением."],3:["Первые шаги малыша","После оплодотворения формируется эмбрион и начинается его путь к матке."],4:["Первая важная неделя","Эмбрион имплантируется в слизистую матки. Начинается формирование плаценты."],5:["Маленькое сердечко","Начинают формироваться нервная система и основные структуры эмбриона. Развивается будущая плацента."],6:["Большие изменения","Закладываются важные органы и структуры тела. Эмбрион быстро растёт."],7:["Развитие продолжается","Формируются зачатки конечностей и продолжается развитие мозга и внутренних органов."],8:["Уже 8 недель","Эмбрион продолжает активно расти, формируются черты лица и конечности."],9:["Новый этап","Продолжается развитие органов, конечностей и нервной системы. Эмбрион становится всё более похожим на малыша."],10:["Малыш растёт","Закладывание основных органов в основном завершено, дальше идёт их развитие и созревание."],11:["Почти третий месяц","Малыш активно двигается, хотя мама обычно ещё не ощущает эти движения."],12:["Важная отметка","Продолжается рост малыша, формирование костей и развитие нервной системы."],13:["Второй триместр близко","Малыш растёт, движения становятся активнее, продолжается развитие органов."],14:["Поздравляем! 14 недель","Начинается второй триместр. Малыш продолжает расти, а у многих будущих мам самочувствие постепенно меняется."],15:["15 недель!","Малыш активно развивается и двигается. Кости становятся крепче, продолжается развитие слуховой системы."],16:["16 недель!","Малыш растёт и активно двигается. У некоторых мам скоро могут появиться первые ощущения движений."],17:["17 недель!","Продолжается рост малыша и развитие костей. Формируется подкожная жировая ткань."],18:["18 недель!","Малыш продолжает расти, развиваются органы чувств и нервная система. Движения становятся более координированными."],19:["19 недель!","Продолжается развитие мозга и органов чувств. Тело малыша покрывается защитным сыровидным веществом."],20:["Половина пути!","Около половины беременности позади. Малыш продолжает расти и активно двигаться."],21:["21 неделя!","Малыш набирает массу, развивается пищеварительная и нервная системы. Движения могут ощущаться заметнее."],22:["22 недели!","Продолжается развитие мозга и лёгких. Малыш всё лучше координирует движения."],23:["23 недели!","Малыш активно растёт, продолжается созревание лёгких и нервной системы."],24:["24 недели!","Лёгкие продолжают развиваться. Малыш становится более пропорциональным."],25:["25 недель!","Продолжается накопление жировой ткани и созревание нервной системы."],26:["26 недель!","Малыш активно двигается, развивается слух и продолжается созревание лёгких."],27:["27 недель!","Завершается второй триместр. Малыш продолжает быстро расти и набирать вес."],28:["Третий триместр!","Поздравляем с началом третьего триместра. Мозг и лёгкие продолжают созревать."],29:["29 недель!","Малыш активно набирает вес. Продолжается развитие мозга, мышц и лёгких."],30:["30 недель!","До встречи с малышом остаётся всё меньше времени. Малыш продолжает расти и тренировать дыхательные движения."],31:["31 неделя!","Продолжается набор веса и созревание нервной системы. Движения малыша могут ощущаться сильнее."],32:["32 недели!","Малыш продолжает набирать массу, а его органы постепенно становятся более зрелыми."],33:["33 недели!","Продолжается развитие мозга и лёгких. Малыш всё больше готовится к жизни вне матки."],34:["34 недели!","Малыш активно растёт и набирает жировую ткань. Большинство органов уже хорошо сформированы."],35:["35 недель!","Органы продолжают созревать, малыш набирает вес и занимает всё больше места."],36:["36 недель!","Финишная прямая. Малыш продолжает набирать вес и готовиться к рождению."],37:["37 недель!","Беременность считается доношенной. Малыш продолжает совершенствовать навыки, необходимые после рождения."],38:["38 недель!","Малыш уже хорошо подготовлен к встрече с миром и продолжает набирать вес."],39:["39 недель!","Почти встреча! Малыш продолжает расти и готовиться к рождению."],40:["40 недель!","Ориентировочный срок родов. Малыш готов к рождению, но нормальные сроки могут отличаться."]};
+const currentWeek=14;
+const list=document.getElementById("achievementList");
+for(let w=1;w<=40;w++){
+ const a=document.createElement("div");
+ a.className="achievement"+(w>currentWeek?" locked":"");
+ a.innerHTML=`<span class="badge">${w<=currentWeek?"🏆":"🔒"}</span><div class="wk">${w} неделя — ${weeks[w][0]}</div><p>${weeks[w][1]}</p>${w===currentWeek?'<b>✨ Новое достижение открыто!</b>':w<currentWeek?'✓ Достижение пройдено':''}`;
+ list.appendChild(a);
+}
+
+function level(btn,n){
+ const box=btn.closest('.symptom');
+ box.querySelectorAll('.levels button').forEach(x=>x.classList.remove('on'));
+ btn.classList.add('on');
+ box.classList.add('selected');
+}
+function overall(btn){
+ btn.parentElement.querySelectorAll('.mini').forEach(x=>x.classList.remove('selected'));
+ btn.classList.add('selected');
+}
+
+function takeMed(btn){
+ const card=btn.closest('.med-card');
+ if(card.dataset.taken==="true"){ return; }
+ let n=Math.max(0,parseInt(card.dataset.stock||"0")-1);
+ card.dataset.stock=n; card.dataset.taken="true";
+ card.querySelector('.stock-num').textContent=n;
+ btn.textContent="✓ Выпито сегодня"; btn.classList.add("done");
+ const stock=card.querySelector('.stock');
+ if(n<=5){stock.classList.add("low"); stock.innerHTML='Осталось: <b class="stock-num">'+n+'</b> шт. — ⚠️ Пора пополнить запас';}
+}
+function addMed(){
+ const name=document.getElementById("medName").value.trim()||"Новое лекарство";
+ const dose=document.getElementById("medDose").value.trim()||"Дозировка не указана";
+ const time=document.getElementById("medTime").value||"09:00";
+ const stock=parseInt(document.getElementById("medStock").value||"0");
+ const file=document.getElementById("medPhoto").files[0];
+ const card=document.createElement("div"); card.className="med-card"; card.dataset.stock=stock; card.dataset.taken="false";
+ const photo=document.createElement("div"); photo.className="med-photo"; photo.textContent="💊";
+ if(file){const img=document.createElement("img"); img.src=URL.createObjectURL(file); photo.textContent=""; photo.appendChild(img);}
+ card.innerHTML=`<div class="med-row"><div class="med-photo-placeholder"></div><div><div class="med-name"></div><div class="med-meta"></div><div class="med-time">⏰ ${time}</div></div></div><div class="med-bottom"><span class="stock">Осталось: <b class="stock-num">${stock}</b> шт.</span><button class="take-btn" onclick="takeMed(this)">Отметить приём</button></div>`;
+ card.querySelector(".med-name").textContent=name; card.querySelector(".med-meta").textContent="Дозировка: "+dose;
+ const ph=card.querySelector(".med-photo-placeholder"); ph.className="med-photo"; ph.replaceWith(photo);
+ document.getElementById("medsList").appendChild(card);
+ document.getElementById("medForm").classList.remove("open");
+ document.getElementById("medName").value=""; document.getElementById("medDose").value="";
+ alert("Лекарство добавлено. В реальном приложении здесь также будет системное напоминание в выбранное время.");
+}
+function requestNotifications(){
+ if("Notification" in window){
+   Notification.requestPermission().then(x=>alert(x==="granted"?"Уведомления разрешены.":"Разрешение на уведомления не получено."));
+ }else alert("Этот браузер не поддерживает уведомления.");
+}
+
+function setProfilePhoto(input){
+ if(input.files && input.files[0]){
+   const img=document.createElement("img");
+   img.src=URL.createObjectURL(input.files[0]);
+   const box=document.getElementById("profilePhoto");
+   box.innerHTML=""; box.appendChild(img);
+ }
+}
+function editProfile(){
+ const n=prompt("Как тебя зовут?",document.getElementById("profileName").textContent);
+ if(n && n.trim()) document.getElementById("profileName").textContent=n.trim();
+}
+function saveDoctor(){
+ const values=[
+   ["doctorNameInput","doctorName"],["doctorPhoneInput","doctorPhone"],
+   ["clinicNameInput","clinicName"],["clinicPhoneInput","clinicPhone"]
+ ];
+ values.forEach(([a,b])=>{
+   const v=document.getElementById(a).value.trim();
+   if(v) document.getElementById(b).textContent=v;
+ });
+ document.getElementById("doctorForm").classList.remove("open");
+ alert("Контакты сохранены ❤️");
+}
+</script>
