@@ -41,20 +41,20 @@ textarea,input{width:100%;padding:12px;border:1px solid #e8dff0;border-radius:14
   <div class="profile-name" id="profileName">Булочка</div>
   <div class="profile-edit" onclick="editProfile()">Нажми, чтобы изменить имя и фото</div>
 </div>
-<div class="card week"><div class="small">Сейчас</div><b>14 недель</b><div>2-й триместр</div><div class="progress"><i></i></div></div>
+<div class="card week"><div class="small">Сейчас</div><b id="weekNumber">14 недель</b><div id="trimesterText">2-й триместр</div><div class="progress"><i id="weekProgress"></i></div></div>
 <div class="baby-card">
   <div class="baby-top">
     <div>
       <div class="baby-title">👶 Малыш сейчас</div>
-      <div class="small">14-я неделя беременности</div>
+      <div class="small" id="babyWeekText">14-я неделя беременности</div>
     </div>
-    <div class="baby-fruit">🍋</div>
+    <div class="baby-fruit" id="babyFruit">🍋</div>
   </div>
   <div class="baby-stats">
-    <div class="baby-stat"><span class="small">Примерный размер</span><b>≈ 8–9 см</b></div>
-    <div class="baby-stat"><span class="small">Примерный вес</span><b>≈ 40–50 г</b></div>
+    <div class="baby-stat"><span class="small">Примерный размер</span><b id="babySize">≈ 8–9 см</b></div>
+    <div class="baby-stat"><span class="small">Примерный вес</span><b id="babyWeight">≈ 40–50 г</b></div>
   </div>
-  <p class="small" style="margin-bottom:0">Сейчас малыш примерно размером с лимон 🍋. Показатели ориентировочные и могут немного отличаться у каждой беременности.</p>
+  <p class="small" id="babyDescription" style="margin-bottom:0">Сейчас малыш примерно размером с лимон 🍋. Показатели ориентировочные и могут немного отличаться у каждой беременности.</p>
 </div>
 
 <div class="grid"><div class="mini"><div class="emoji">⚖️</div><div class="small">Вес сегодня</div><div class="value">— кг</div></div><div class="mini"><div class="emoji">😊</div><div class="small">Самочувствие</div><div class="value">Хорошо</div></div><div class="mini"><div class="emoji">🥗</div><div class="small">Питание</div><div class="value">Добавить</div></div><div class="mini"><div class="emoji">🩺</div><div class="small">Ближайший врач</div><div class="value">Добавить</div></div></div>
@@ -186,18 +186,93 @@ textarea,input{width:100%;padding:12px;border:1px solid #e8dff0;border-radius:14
 <p class="small">Когда останется мало таблеток, приложение покажет предупреждение «Пора пополнить запас».</p>
 </div>
 </section>
-<section id="notes" class="screen"><div class="card"><h2>📝 Заметки</h2><textarea style="height:180px" placeholder="Мысли, вопросы врачу, важные события..."></textarea><br><br><button class="action" onclick="alert('Заметка сохранена!')">Сохранить</button></div><div class="card"><b>🖼️ Галерея УЗИ</b><p class="small">Все снимки беременности в одном месте.</p><button class="action" onclick="alert('Здесь будет галерея УЗИ')">Добавить УЗИ</button></div></section>
+<section id="notes" class="screen">
+<div class="card"><h2>📅 Срок беременности</h2><p class="small">Укажи предполагаемую дату родов один раз — дальше недели будут меняться автоматически каждый день.</p><label style="display:block;font-size:13px;font-weight:700;margin-top:10px">Предполагаемая дата родов</label><input id="dueDateInput" type="date"><button class="action" onclick="saveDueDate()">Сохранить дату</button><p class="small" id="dueDateStatus" style="margin-bottom:0"></p></div>
+<div class="card"><h2>📝 Заметки</h2><textarea style="height:180px" placeholder="Мысли, вопросы врачу, важные события..."></textarea><br><br><button class="action" onclick="alert('Заметка сохранена!')">Сохранить</button></div><div class="card"><b>🖼️ Галерея УЗИ</b><p class="small">Все снимки беременности в одном месте.</p><button class="action" onclick="alert('Здесь будет галерея УЗИ')">Добавить УЗИ</button></div></section>
 </div><div class="nav"><button class="active" onclick="go('home',this)"><span>🏠</span>Главная</button><button onclick="go('health',this)"><span>❤️</span>День</button><button onclick="go('food',this)"><span>🥗</span>Еда</button><button onclick="go('doctor',this)"><span>🩺</span>Врач</button><button onclick="go('achievements',this)"><span>🏆</span>Достижения</button><button onclick="go('meds',this)"><span>💊</span>Лекарства</button><button onclick="go('notes',this)"><span>📝</span>Ещё</button></div></div>
 <script>function go(id,b){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active')}
 const weeks={1:["Начало пути","Беременность обычно отсчитывают от первого дня последней менструации. Оплодотворение ещё может не произойти."],2:["Старт","В организме происходят изменения, связанные с овуляцией и возможным оплодотворением."],3:["Первые шаги малыша","После оплодотворения формируется эмбрион и начинается его путь к матке."],4:["Первая важная неделя","Эмбрион имплантируется в слизистую матки. Начинается формирование плаценты."],5:["Маленькое сердечко","Начинают формироваться нервная система и основные структуры эмбриона. Развивается будущая плацента."],6:["Большие изменения","Закладываются важные органы и структуры тела. Эмбрион быстро растёт."],7:["Развитие продолжается","Формируются зачатки конечностей и продолжается развитие мозга и внутренних органов."],8:["Уже 8 недель","Эмбрион продолжает активно расти, формируются черты лица и конечности."],9:["Новый этап","Продолжается развитие органов, конечностей и нервной системы. Эмбрион становится всё более похожим на малыша."],10:["Малыш растёт","Закладывание основных органов в основном завершено, дальше идёт их развитие и созревание."],11:["Почти третий месяц","Малыш активно двигается, хотя мама обычно ещё не ощущает эти движения."],12:["Важная отметка","Продолжается рост малыша, формирование костей и развитие нервной системы."],13:["Второй триместр близко","Малыш растёт, движения становятся активнее, продолжается развитие органов."],14:["Поздравляем! 14 недель","Начинается второй триместр. Малыш продолжает расти, а у многих будущих мам самочувствие постепенно меняется."],15:["15 недель!","Малыш активно развивается и двигается. Кости становятся крепче, продолжается развитие слуховой системы."],16:["16 недель!","Малыш растёт и активно двигается. У некоторых мам скоро могут появиться первые ощущения движений."],17:["17 недель!","Продолжается рост малыша и развитие костей. Формируется подкожная жировая ткань."],18:["18 недель!","Малыш продолжает расти, развиваются органы чувств и нервная система. Движения становятся более координированными."],19:["19 недель!","Продолжается развитие мозга и органов чувств. Тело малыша покрывается защитным сыровидным веществом."],20:["Половина пути!","Около половины беременности позади. Малыш продолжает расти и активно двигаться."],21:["21 неделя!","Малыш набирает массу, развивается пищеварительная и нервная системы. Движения могут ощущаться заметнее."],22:["22 недели!","Продолжается развитие мозга и лёгких. Малыш всё лучше координирует движения."],23:["23 недели!","Малыш активно растёт, продолжается созревание лёгких и нервной системы."],24:["24 недели!","Лёгкие продолжают развиваться. Малыш становится более пропорциональным."],25:["25 недель!","Продолжается накопление жировой ткани и созревание нервной системы."],26:["26 недель!","Малыш активно двигается, развивается слух и продолжается созревание лёгких."],27:["27 недель!","Завершается второй триместр. Малыш продолжает быстро расти и набирать вес."],28:["Третий триместр!","Поздравляем с началом третьего триместра. Мозг и лёгкие продолжают созревать."],29:["29 недель!","Малыш активно набирает вес. Продолжается развитие мозга, мышц и лёгких."],30:["30 недель!","До встречи с малышом остаётся всё меньше времени. Малыш продолжает расти и тренировать дыхательные движения."],31:["31 неделя!","Продолжается набор веса и созревание нервной системы. Движения малыша могут ощущаться сильнее."],32:["32 недели!","Малыш продолжает набирать массу, а его органы постепенно становятся более зрелыми."],33:["33 недели!","Продолжается развитие мозга и лёгких. Малыш всё больше готовится к жизни вне матки."],34:["34 недели!","Малыш активно растёт и набирает жировую ткань. Большинство органов уже хорошо сформированы."],35:["35 недель!","Органы продолжают созревать, малыш набирает вес и занимает всё больше места."],36:["36 недель!","Финишная прямая. Малыш продолжает набирать вес и готовиться к рождению."],37:["37 недель!","Беременность считается доношенной. Малыш продолжает совершенствовать навыки, необходимые после рождения."],38:["38 недель!","Малыш уже хорошо подготовлен к встрече с миром и продолжает набирать вес."],39:["39 недель!","Почти встреча! Малыш продолжает расти и готовиться к рождению."],40:["40 недель!","Ориентировочный срок родов. Малыш готов к рождению, но нормальные сроки могут отличаться."]};
-const currentWeek=14;
-const list=document.getElementById("achievementList");
-for(let w=1;w<=40;w++){
- const a=document.createElement("div");
- a.className="achievement"+(w>currentWeek?" locked":"");
- a.innerHTML=`<span class="badge">${w<=currentWeek?"🏆":"🔒"}</span><div class="wk">${w} неделя — ${weeks[w][0]}</div><p>${weeks[w][1]}</p>${w===currentWeek?'<b>✨ Новое достижение открыто!</b>':w<currentWeek?'✓ Достижение пройдено':''}`;
- list.appendChild(a);
+// Срок беременности считается автоматически по ПДР (40 недель).
+// По умолчанию выставлена дата, соответствующая 14 неделям на 28.09.2026.
+const DEFAULT_DUE_DATE = "2027-03-29";
+const dueKey = "moyMirDueDate";
+
+function getDueDate(){
+  return localStorage.getItem(dueKey) || DEFAULT_DUE_DATE;
 }
+function calculateWeek(dueDateString){
+  const due = new Date(dueDateString + "T00:00:00");
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const gestationStart = new Date(due);
+  gestationStart.setDate(gestationStart.getDate() - 280);
+  const days = Math.floor((today - gestationStart) / 86400000);
+  return Math.max(1, Math.min(40, Math.floor(days / 7)));
+}
+const currentWeek = calculateWeek(getDueDate());
+
+const babyByWeek = {
+  1:["🔬","≈ 0 мм","≈ 0 г","Начало отсчёта беременности."],
+  8:["🫐","≈ 1,5 см","≈ 1 г","Малыш примерно размером с небольшую ягоду."],
+  10:["🍓","≈ 3 см","≈ 4 г","Малыш активно развивается и растёт."],
+  12:["🍋","≈ 5–6 см","≈ 14 г","Малыш продолжает расти и развиваться."],
+  14:["🍋","≈ 8–9 см","≈ 40–50 г","Сейчас малыш примерно размером с лимон 🍋."],
+  16:["🥑","≈ 11–12 см","≈ 80–100 г","Малыш активно двигается и растёт."],
+  18:["🥭","≈ 14 см","≈ 190 г","Продолжается развитие органов и нервной системы."],
+  20:["🍌","≈ 16 см","≈ 300 г","Примерно половина беременности позади."],
+  24:["🌽","≈ 30 см","≈ 600 г","Малыш продолжает активно расти."],
+  28:["🍆","≈ 37 см","≈ 1 кг","Начинается третий триместр."],
+  32:["🥥","≈ 42 см","≈ 1,7 кг","Малыш продолжает набирать массу."],
+  36:["🍈","≈ 47 см","≈ 2,6 кг","Финишная прямая."],
+  40:["👶","≈ 50 см","≈ 3,3 кг","Ориентировочный срок родов."]
+};
+function nearestBabyData(w){
+  const keys=Object.keys(babyByWeek).map(Number).sort((a,b)=>a-b);
+  let key=keys[0];
+  for(const k of keys){ if(k<=w) key=k; else break; }
+  return babyByWeek[key];
+}
+function updatePregnancyUI(){
+  const w=calculateWeek(getDueDate());
+  const trimester=w<=13?"1-й триместр":w<=27?"2-й триместр":"3-й триместр";
+  document.getElementById("weekNumber").textContent=w+" "+(w===1?"неделя":w<5?"недели":"недель");
+  document.getElementById("trimesterText").textContent=trimester;
+  document.getElementById("weekProgress").style.width=Math.round((w/40)*100)+"%";
+  document.getElementById("babyWeekText").textContent=w+"-я неделя беременности";
+  const d=nearestBabyData(w);
+  document.getElementById("babyFruit").textContent=d[0];
+  document.getElementById("babySize").textContent=d[1];
+  document.getElementById("babyWeight").textContent=d[2];
+  document.getElementById("babyDescription").textContent=d[3]+" Показатели ориентировочные и могут отличаться у каждой беременности.";
+  return w;
+}
+function renderAchievements(){
+  const w=calculateWeek(getDueDate());
+  const list=document.getElementById("achievementList");
+  list.innerHTML="";
+  for(let week=1;week<=40;week++){
+    const a=document.createElement("div");
+    a.className="achievement"+(week>w?" locked":"");
+    a.innerHTML=`<span class="badge">${week<=w?"🏆":"🔒"}</span><div class="wk">${week} неделя — ${weeks[week][0]}</div><p>${weeks[week][1]}</p>${week===w?'<b>✨ Текущая неделя</b>':week<w?'✓ Достижение пройдено':''}`;
+    list.appendChild(a);
+  }
+}
+function saveDueDate(){
+  const value=document.getElementById("dueDateInput").value;
+  if(!value){ alert("Укажи дату родов"); return; }
+  localStorage.setItem(dueKey,value);
+  updatePregnancyUI();
+  renderAchievements();
+  document.getElementById("dueDateStatus").textContent="Дата сохранена. Неделя беременности будет обновляться автоматически.";
+}
+function initPregnancy(){
+  const input=document.getElementById("dueDateInput");
+  const saved=getDueDate();
+  if(input) input.value=saved;
+  updatePregnancyUI();
+  renderAchievements();
+}
+initPregnancy();
 
 function level(btn,n){
  const box=btn.closest('.symptom');
