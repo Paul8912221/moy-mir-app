@@ -1,0 +1,10 @@
+{
+  "appId": "com.moymir.app",
+  "appName": "МОЙ МИР",
+  "webDir": "dist",
+  "plugins": {
+    "LocalNotifications": {
+      "presentationOptions": ["badge", "sound", "banner", "list"]
+    }
+  }
+}
