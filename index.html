@@ -21,6 +21,7 @@ textarea,input{width:100%;padding:12px;border:1px solid #e8dff0;border-radius:14
 .achievement{padding:15px;border-radius:19px;background:linear-gradient(135deg,#fff8f0,#f5efff);margin:10px 0;border:1px solid #fff;box-shadow:0 7px 18px #80609018}.achievement.locked{opacity:.55}.achievement .wk{font-size:20px;font-weight:900;color:#8d52a8}.achievement .badge{font-size:31px;float:right;filter:drop-shadow(0 4px 3px #0002)}.achievement p{font-size:13px;line-height:1.45;color:#665b6b}
 .meds-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}.med-card{background:rgba(255,255,255,.9);border:1px solid #fff;border-radius:22px;padding:14px;box-shadow:0 9px 22px #80609018}.med-row{display:flex;gap:12px;align-items:center}.med-photo{width:68px;height:68px;border-radius:18px;background:linear-gradient(135deg,#ffe0ed,#d8c8ff);display:flex;align-items:center;justify-content:center;font-size:32px;overflow:hidden;box-shadow:0 7px 13px #80609020}.med-photo img{width:100%;height:100%;object-fit:cover}.med-name{font-size:17px;font-weight:900}.med-meta{font-size:12px;color:#8f808f;margin-top:3px}.med-time{display:inline-block;background:linear-gradient(135deg,#fff0f5,#eee6ff);color:#8951a5;padding:5px 9px;border-radius:10px;font-weight:800;font-size:12px;margin-top:8px}.med-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:12px}.stock{font-size:13px}.stock.low{color:#b14e55;font-weight:900}.add-med{background:linear-gradient(135deg,#fff,#f4edff);border:2px dashed #c9b4dc;border-radius:20px;padding:17px;text-align:center;cursor:pointer}.med-form{display:none}.med-form.open{display:block}.med-form label{display:block;font-size:13px;font-weight:700;margin:10px 0}
 
+.day-picker{display:grid;grid-template-columns:42px 1fr 42px;gap:8px;align-items:center;margin:10px 0}.day-picker input{margin:0}.day-picker button{font-size:22px;padding:6px}.history-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}.history-day{width:100%;border:1px solid #eee2f4;border-radius:14px;background:linear-gradient(135deg,#fff,#f8f2ff);padding:11px 13px;text-align:left;color:inherit;font:inherit;cursor:pointer}.history-day:active{transform:scale(.99)}.history-day b{display:block;color:#8d52a8}.history-day span{display:block;font-size:12px;color:#756a7e;margin-top:3px;line-height:1.4}
 .profile-wrap{text-align:center;padding:5px 0 13px}
 .profile-photo{width:104px;height:104px;border-radius:50%;margin:0 auto 9px;background:linear-gradient(135deg,#ff83b6,#9a73ff,#63cfff);display:flex;align-items:center;justify-content:center;font-size:48px;overflow:hidden;border:4px solid #fff;box-shadow:0 10px 25px #8055a844;cursor:pointer}
 .profile-photo img{width:100%;height:100%;object-fit:cover}
@@ -61,7 +62,10 @@ textarea,input{width:100%;padding:12px;border:1px solid #e8dff0;border-radius:14
 <div class="card"><b>Фото животика</b><div class="photo">🤰</div><p class="small">Фото каждый месяц — чтобы видеть изменения.</p><button class="action" onclick="go('belly')">Добавить фото</button></div></section>
 <section id="health" class="screen">
 <div class="card"><h2>❤️ День</h2>
-<p class="small">Отметь, как Булочка чувствует себя сегодня.</p>
+<p class="small">Выбери дату. Симптомы, самочувствие и заметки сохраняются отдельно для каждого дня.</p>
+<div class="day-picker"><button class="edit-btn" type="button" onclick="changeDay(-1)" aria-label="Предыдущий день">‹</button><input id="dayDateInput" type="date" aria-label="Дата записи" onchange="loadDailyLog()"><button class="edit-btn" id="nextDayButton" type="button" onclick="changeDay(1)" aria-label="Следующий день">›</button></div>
+<p class="small" id="daySaveStatus" style="margin-bottom:0"></p>
+<p class="small">Отметь самочувствие и симптомы за этот день.</p>
 
 <div class="symptoms" id="symptoms">
 <div class="symptom" data-name="Тошнота"><div class="sicon">🤢</div><div class="sname">Тошнота</div><div class="levels"><button onclick="level(this,0)">0</button><button onclick="level(this,1)">1</button><button onclick="level(this,2)">2</button><button onclick="level(this,3)">3</button></div><div class="symptom-note">0 — нет · 3 — сильно</div></div>
@@ -83,15 +87,16 @@ textarea,input{width:100%;padding:12px;border:1px solid #e8dff0;border-radius:14
 </div>
 
 <p style="margin-top:16px"><b>Самочувствие в целом</b></p>
-<div class="grid">
-<button class="mini" onclick="overall(this)">😄<br><b>Отлично</b></button>
-<button class="mini" onclick="overall(this)">🙂<br><b>Хорошо</b></button>
-<button class="mini" onclick="overall(this)">😐<br><b>Нормально</b></button>
-<button class="mini" onclick="overall(this)">😔<br><b>Плохо</b></button>
+<div class="grid" id="overallChoices">
+<button class="mini" type="button" onclick="overall(this)">😄<br><b>Отлично</b></button>
+<button class="mini" type="button" onclick="overall(this)">🙂<br><b>Хорошо</b></button>
+<button class="mini" type="button" onclick="overall(this)">😐<br><b>Нормально</b></button>
+<button class="mini" type="button" onclick="overall(this)">😔<br><b>Плохо</b></button>
 </div>
-<p>Заметка</p><textarea placeholder="Что чувствуешь сегодня? Вопросы врачу?"></textarea><br><br>
-<button class="action" onclick="alert('День сохранён ❤️')">Сохранить день</button>
+<p><b>Заметка</b></p><textarea id="dayNote" oninput="saveDailyLog(false)" placeholder="Что чувствуешь сегодня? Вопросы врачу?"></textarea><br><br>
+<button class="action" type="button" onclick="saveDailyLog(true)">Сохранить день</button>
 </div>
+<div class="card"><b>📅 История дней</b><p class="small" id="dayHistoryEmpty">Пока нет сохранённых дней.</p><div class="history-list" id="dayHistoryList"></div></div>
 
 <div class="card"><b>⚠️ Важно</b><p class="small">Приложение помогает вести дневник и не заменяет медицинскую консультацию. При сильных, необычных или быстро усиливающихся симптомах стоит обратиться к врачу.</p></div>
 </section>
@@ -261,16 +266,19 @@ function saveWeight(){const input=document.getElementById("weightInput"),value=i
 function initPregnancy(){syncGestationInputs();updatePregnancyUI();renderAchievements();renderWeight();}
 initPregnancy();
 
-function level(btn,n){
- const box=btn.closest('.symptom');
- box.querySelectorAll('.levels button').forEach(x=>x.classList.remove('on'));
- btn.classList.add('on');
- box.classList.add('selected');
-}
-function overall(btn){
- btn.parentElement.querySelectorAll('.mini').forEach(x=>x.classList.remove('selected'));
- btn.classList.add('selected');
-}
+const dailyLogsKey="moyMirDailyLogs";
+function localDateString(d=new Date()){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function getDailyLogs(){try{const value=JSON.parse(localStorage.getItem(dailyLogsKey)||"{}");return value&&typeof value==="object"&&!Array.isArray(value)?value:{};}catch(e){return {};}}
+function currentDay(){return document.getElementById("dayDateInput").value||localDateString();}
+function formatDayLabel(value){const d=new Date(value+"T00:00:00");return d.toLocaleDateString("ru-RU",{weekday:"long",day:"numeric",month:"long",year:"numeric"});}
+function renderDayHistory(){const logs=getDailyLogs(),list=document.getElementById("dayHistoryList"),empty=document.getElementById("dayHistoryEmpty");list.innerHTML="";const dates=Object.keys(logs).filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x)).sort((a,b)=>b.localeCompare(a));empty.hidden=dates.length>0;dates.forEach(date=>{const log=logs[date]||{},button=document.createElement("button");button.type="button";button.className="history-day";const title=document.createElement("b"),detail=document.createElement("span"),choices=document.querySelectorAll("#overallChoices .mini"),mood=Number.isInteger(log.moodIndex)&&choices[log.moodIndex]?choices[log.moodIndex].innerText.replace(/\s+/g," ").trim():"Самочувствие не отмечено",symptoms=Object.entries(log.symptoms||{}).filter(([,v])=>Number(v)>0).length,note=(log.note||"").trim();title.textContent=formatDayLabel(date);detail.textContent=mood+" · симптомов отмечено: "+symptoms+(note?" · "+note.slice(0,90)+(note.length>90?"…":""):"");button.appendChild(title);button.appendChild(detail);button.onclick=()=>{document.getElementById("dayDateInput").value=date;loadDailyLog();};list.appendChild(button);});}
+function loadDailyLog(){const input=document.getElementById("dayDateInput"),today=localDateString();input.max=today;if(!input.value||input.value>today)input.value=today;const date=input.value,log=getDailyLogs()[date]||{},symptoms=log.symptoms||{};document.querySelectorAll("#symptoms .symptom").forEach(box=>{const value=symptoms[box.dataset.name];box.querySelectorAll(".levels button").forEach(button=>button.classList.toggle("on",value!==undefined&&Number(button.textContent)===Number(value)));box.classList.toggle("selected",value!==undefined);});document.querySelectorAll("#overallChoices .mini").forEach((button,index)=>button.classList.toggle("selected",index===log.moodIndex));document.getElementById("dayNote").value=log.note||"";document.getElementById("nextDayButton").disabled=date>=today;document.getElementById("daySaveStatus").textContent=Object.keys(log).length?"Запись за этот день загружена.":"За этот день пока нет записи.";renderDayHistory();}
+function changeDay(offset){const input=document.getElementById("dayDateInput"),parts=(input.value||localDateString()).split("-").map(Number),date=new Date(parts[0],parts[1]-1,parts[2]+offset),today=localDateString();let value=localDateString(date);if(value>today)value=today;input.value=value;loadDailyLog();}
+function saveDailyLog(showMessage){const date=currentDay(),logs=getDailyLogs(),symptoms={};document.querySelectorAll("#symptoms .symptom").forEach(box=>{const active=box.querySelector(".levels button.on");if(active)symptoms[box.dataset.name]=Number(active.textContent);});const choices=Array.from(document.querySelectorAll("#overallChoices .mini")),moodIndex=choices.findIndex(button=>button.classList.contains("selected")),note=document.getElementById("dayNote").value,hasContent=Object.keys(symptoms).length>0||moodIndex>=0||note.trim().length>0;if(!hasContent){if(logs[date]){delete logs[date];try{localStorage.setItem(dailyLogsKey,JSON.stringify(logs));}catch(e){}}document.getElementById("daySaveStatus").textContent=showMessage?"Сначала отметь самочувствие, симптомы или добавь заметку.":"";renderDayHistory();return;}logs[date]={symptoms,moodIndex:moodIndex>=0?moodIndex:null,note,updatedAt:new Date().toISOString()};try{localStorage.setItem(dailyLogsKey,JSON.stringify(logs));if(localStorage.getItem(dailyLogsKey)!==JSON.stringify(logs))throw Error();document.getElementById("daySaveStatus").textContent=showMessage?"День сохранён ❤️":"Сохраняется автоматически ❤️";renderDayHistory();}catch(e){document.getElementById("daySaveStatus").textContent="Не удалось сохранить запись. Проверь настройки браузера.";}}
+function initDailyJournal(){document.getElementById("dayDateInput").value=localDateString();loadDailyLog();}
+initDailyJournal();
+function level(btn,n){const box=btn.closest('.symptom');box.querySelectorAll('.levels button').forEach(x=>x.classList.remove('on'));btn.classList.add('on');box.classList.add('selected');saveDailyLog(false);}
+function overall(btn){btn.parentElement.querySelectorAll('.mini').forEach(x=>x.classList.remove('selected'));btn.classList.add('selected');saveDailyLog(false);}
 
 function takeMed(btn){
  const card=btn.closest('.med-card');
