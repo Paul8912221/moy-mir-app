@@ -2,10 +2,10 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:radial-gradient(circle at 15% 10%,#ffd7e5 0,#f2d9ff 28%,#d8e9ff 62%,#e8eef8 100%);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;color:#30283a}
-.phone{width:390px;max-width:95vw;height:820px;margin:24px auto;background:linear-gradient(180deg,#fffaff 0,#f7f5ff 100%);border:8px solid #17151d;border-radius:40px;overflow:hidden;position:relative;box-shadow:0 28px 80px #5d437044,0 8px 25px #0002}
-.status{height:30px;padding:7px 18px;font-size:12px;font-weight:700;display:flex;justify-content:space-between;color:#40364a}
-.head{padding:14px 22px 8px}.small{color:#897b91;font-size:13px}.title{font-size:28px;font-weight:900;letter-spacing:-.7px;margin-top:3px}
-.content{height:665px;overflow:auto;padding:8px 18px 100px}
+.phone{width:100%;max-width:none;height:100vh;height:100dvh;min-height:0;margin:0;background:linear-gradient(180deg,#fffaff 0,#f7f5ff 100%);border:0;border-radius:0;overflow:hidden;position:relative;box-shadow:none;display:flex;flex-direction:column}
+.status{display:none}
+.head{width:min(100%,720px);margin:0 auto;padding:14px 22px 8px;flex:0 0 auto}.small{color:#897b91;font-size:13px}.title{font-size:28px;font-weight:900;letter-spacing:-.7px;margin-top:3px}
+.content{width:min(100%,720px);height:auto;min-height:0;flex:1;overflow:auto;padding:8px 18px 100px;margin:0 auto}
 .card,.mini{background:rgba(255,255,255,.84);backdrop-filter:blur(16px);border:1px solid #fff;border-radius:24px;padding:17px;margin:10px 0;box-shadow:0 10px 28px #7b5b9820, inset 0 1px 0 #fff}
 .week{background:linear-gradient(135deg,#ff8fb8,#b88cff 58%,#77c8ff);color:#fff;border:0;box-shadow:0 16px 34px #b266bc40}.week .small{color:#fff9}.week b{font-size:34px;letter-spacing:-1px}
 .progress{height:9px;background:#ffffff55;border-radius:9px;margin-top:13px;overflow:hidden}.progress i{display:block;width:35%;height:100%;background:#fff;border-radius:9px;box-shadow:0 2px 7px #fff}
@@ -15,7 +15,7 @@ body{margin:0;background:radial-gradient(circle at 15% 10%,#ffd7e5 0,#f2d9ff 28%
 .photo{height:120px;border-radius:20px;background:linear-gradient(135deg,#ffd5e5,#d8c8ff,#bceaff);display:flex;align-items:center;justify-content:center;font-size:48px;margin-top:10px;box-shadow:inset 0 2px 8px #fff,0 8px 18px #80609020}
 button.action,.take-btn{border:0;background:linear-gradient(135deg,#ff5f9d,#9c65ff);color:#fff;padding:11px 16px;border-radius:15px;font-weight:800;cursor:pointer;box-shadow:0 7px 16px #9c65ff35}.take-btn.done{background:linear-gradient(135deg,#49c887,#38a98d)}
 textarea,input{width:100%;padding:12px;border:1px solid #e8dff0;border-radius:14px;font:inherit;margin-top:6px;background:#fff}
-.nav{position:absolute;bottom:0;left:0;right:0;min-height:82px;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-top:1px solid #fff;display:flex;justify-content:space-around;padding:9px 4px 7px;overflow-x:auto}.nav button{border:0;background:none;color:#9a8da4;font-size:10px;min-width:55px;font-weight:650}.nav button.active{color:#914dff;font-weight:900}.nav span{display:block;font-size:25px;margin-bottom:3px;filter:drop-shadow(0 4px 3px #0002)}
+.nav{position:relative;bottom:auto;left:auto;right:auto;flex:0 0 82px;min-height:82px;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-top:1px solid #fff;display:flex;justify-content:space-around;padding:9px 4px 7px;overflow-x:auto}.nav button{border:0;background:none;color:#9a8da4;font-size:10px;min-width:55px;font-weight:650}.nav button.active{color:#914dff;font-weight:900}.nav span{display:block;font-size:25px;margin-bottom:3px;filter:drop-shadow(0 4px 3px #0002)}
 .screen{display:none}.screen.active{display:block}
 .symptoms{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.symptom{background:rgba(255,255,255,.9);border:1px solid #eee2f4;border-radius:18px;padding:12px;cursor:pointer}.symptom.selected{border-color:#a35dff;background:#f9f0ff}.symptom .sicon{font-size:28px;filter:drop-shadow(0 4px 4px #0002)}.symptom .sname{font-weight:800;font-size:13px;margin-top:4px}.levels{display:flex;gap:4px;margin-top:7px}.levels button{border:1px solid #eadede;background:#faf7ff;border-radius:8px;padding:4px 8px;font-size:11px;cursor:pointer}.levels button.on{background:linear-gradient(135deg,#ff609f,#9664ff);color:white;border-color:transparent}.symptom-note{font-size:10px;color:#958686;margin-top:5px}
 .achievement{padding:15px;border-radius:19px;background:linear-gradient(135deg,#fff8f0,#f5efff);margin:10px 0;border:1px solid #fff;box-shadow:0 7px 18px #80609018}.achievement.locked{opacity:.55}.achievement .wk{font-size:20px;font-weight:900;color:#8d52a8}.achievement .badge{font-size:31px;float:right;filter:drop-shadow(0 4px 3px #0002)}.achievement p{font-size:13px;line-height:1.45;color:#665b6b}
@@ -32,7 +32,7 @@ textarea,input{width:100%;padding:12px;border:1px solid #e8dff0;border-radius:14
 .doctor-icon{font-size:25px}
 .edit-btn{border:0;background:#fff;color:#8b57aa;border-radius:11px;padding:8px 12px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px #80609016}
 .profile-form{display:none;margin-top:10px}.profile-form.open{display:block}
-</style>>
+</style>
 <div class="phone"><div class="status"><span>9:41</span><span>● ● ▰</span></div><div class="head"><div class="small">Дневник Булочки ❤️</div><div class="title">Моя беременность</div></div><div class="content">
 <section id="home" class="screen active">
 <div class="profile-wrap">
